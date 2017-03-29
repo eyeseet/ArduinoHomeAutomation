@@ -1,0 +1,10 @@
+<project name="Gateway" default="all">
+	<property file="build.properties"/>
+	<target name="copy">
+		<echo>${ant.version} ${localhexpath}</echo>
+		<scp file="${localhexpath}" todir="${user}@${host}:${remotehexpath}" password="${pwd}" />
+		<sshexec host="${host}" username="${user}" password="${pwd}" trust="true" 
+			command="avrdude -C /etc/avrdude.conf -p m328p -c arduino -P /dev/ttyarduino -b115200 -D -U flash:w:${remotehexpath}/AHAGateway.hex"/>
+	</target>
+	<target name="all" depends="copy" />
+</project>
